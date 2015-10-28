@@ -4,7 +4,8 @@ import ddf.minim.ugens.*;
 Minim minim;
 AudioOutput out;
 AudioRecorder recorder;
-float F00=220.0; // base frequency. Use F00=344.53;  to synchronize with plot
+float F00=261.73; // base frequency. Use F00=344.53;  to synchronize with plot
+boolean isEquitempered = false;
 
 boolean playing=false;
 
@@ -38,4 +39,12 @@ void note(float start, float duration, float freq){ // adds a note to the play b
    totalDuration=max(totalDuration,start+duration);
    }
 
-float Fofs(float semitone) {return F00*pow(2.0,semitone/12.0);} // returns frequency of semitone (which is pitch/12)
+float Fofs(float semitone)
+{
+  if(!isEquitempered)
+    return F00*pow(2.0,semitone/12.0);      // returns frequency of semitone (which is pitch/12)
+  else
+  {
+    return F00*ETS[(int)semitone-1];
+  }
+} 
