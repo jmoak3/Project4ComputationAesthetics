@@ -16,6 +16,7 @@
 PImage just, equit, happy, sad, augmented;
 vec v;
 pts E = new pts();
+String mus;
 pts F = new pts();
 int Chord, Scale;
 void setup() {             
@@ -26,12 +27,12 @@ void setup() {
    happy = loadImage("data/happy.bmp");
    sad = loadImage("data/sad.bmp");
    augmented = loadImage("data/curious.bmp");
-   
+   mus = "data/music.txt";
    smooth();  strokeJoin(ROUND); strokeCap(ROUND); 
    frameRate(30);
    minim = new Minim(this); // Declares minim which we use for sounds
    initSongChart(); // inits measures for drawing the music sheet
-   loadSong("data/bing.txt");  
+   loadSong(mus);  
    E.declare();
    F.declare();
    
@@ -42,6 +43,8 @@ void setup() {
    E.addPt(P(400,900));
    E.addPt(P(200,900));
    v = V(0, -100);
+   
+   initConvScales();
    } 
  
 void draw() {   
@@ -67,8 +70,9 @@ void draw() {
   if (E.pv == 0) Chord = 0;
   if (E.pv == 1) Chord = 1;
   if (E.pv == 2) Chord = 2;
-  if (F.pv == 0) Scale = 0;
-  if (F.pv == 0) Scale = 1;
+  if (F.pv == 0) isEquitempered = true;
+  if (F.pv == 0) isEquitempered = false;
+  loadSong(mus);
   
   if(playing) {playFrameCounter++; drawTimeLine();} // advances the red vertical timeline
   
