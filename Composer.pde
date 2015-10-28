@@ -19,8 +19,7 @@ void setup() {
    frameRate(30);
    minim = new Minim(this); // Declares minim which we use for sounds
    initSongChart(); // inits measures for drawing the music sheet
-   //loadSong("data/bing.txt");     
-   initSong();
+   loadSong("data/bing.txt");  
    addBeat();       // adds a very bad beat over that song
    } 
  
