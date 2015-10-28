@@ -7,6 +7,11 @@ float [] T = new float[nn]; // starting times of notes 4 units per seconds
 float [] D = new float[nn]; // durations
 float [] S = new float[nn]; // semitone )1/12 of octave)
 float [] C = new float[3*nn]; // Triads to replace notes
+
+//Data structure for lookup table for semitone to frequency conversion
+float [] JS = new float[13]; // Array to hold ratio values for Fundamental Just Scale
+float [] ETS = new float[13]; // Array to hold ratio values for Equitempered Scale
+
 int n=0; // number of notes in song
 float songLength=10, totalDuration=0; 
 
@@ -25,10 +30,44 @@ void addNote(float s, float t, float d) {S[n]=s; addChords(n,s); T[n]=t/tm; D[n]
 void addChords(int n, float s)
 { 
   //Major
-  float root = s;//-11.0/3.0;//4.0/5.0 * s;
+  float root = s-11.0/3.0;//4.0/5.0 * s;
   C[3*n] = root;
   C[3*n+1] = root + 3;//1.12246 * root;//5.0/4.0 * root;
   C[3*n+2] = root + 6;//1.49831 * root;//3.0/2.0 * root;
+}
+
+//Function to initiate the JS and ETS arrays with prepopulated chord mapping ratios
+void initConvScales()
+{
+  //Just Scale
+  JS[0] = 1.0000;  //Unison
+  JS[1]  = 1.0417;  //Minor Second
+  JS[2]  = 1.1250;  //Major Second
+  JS[3]  = 1.2000;  //Minor Third
+  JS[4]  = 1.2500;  //Major Third
+  JS[5]  = 1.3333;  //Fourth
+  JS[6]  = 1.4063;  //Diminshed Fifth
+  JS[7]  = 1.5000;  //Fifth
+  JS[8]  = 1.6000;  //Minor Sixth
+  JS[9]  = 1.6667;  //Major Sixth
+  JS[10]  = 1.8000;  //Minor Seventh
+  JS[11]  = 1.8750;  //Major Seventh
+  JS[12]  = 2.0000;  //Octave
+  
+  //Equitempered Scale
+  ETS[0] = 1.0000;  //Unison
+  ETS[1]  = 1.05946;  //Minor Second
+  ETS[2]  = 1.12246;  //Major Second
+  ETS[3]  = 1.18921;  //Minor Third
+  ETS[4]  = 1.25992;  //Major Third
+  ETS[5]  = 1.33483;  //Fourth
+  ETS[6]  = 1.41421;  //Diminshed Fifth
+  ETS[7]  = 1.49831;  //Fifth
+  ETS[8]  = 1.58740;  //Minor Sixth
+  ETS[9]  = 1.68179;  //Major Sixth
+  ETS[10]  = 1.78180;  //Minor Seventh
+  ETS[11]  = 1.88775;  //Major Seventh
+  ETS[12]  = 2.0000;  //Octave
 }
 
 // to make a song

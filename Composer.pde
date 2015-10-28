@@ -21,6 +21,7 @@ void setup() {
    initSongChart(); // inits measures for drawing the music sheet
    loadSong("data/bing.txt");  
    addBeat();       // adds a very bad beat over that song
+   initConvScales();
    } 
  
 void draw() {   
