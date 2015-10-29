@@ -42,9 +42,13 @@ void note(float start, float duration, float freq){ // adds a note to the play b
 float Fofs(float semitone)
 {
   if(!isEquitempered)
+  {
+    //println("Not Equitempered: " + isEquitempered);
     return F00*pow(2.0,semitone/12.0);      // returns frequency of semitone (which is pitch/12)
+  }
   else
   {
-    return F00*ETS[(int)semitone-1];
+    //println("Equitempered: " + isEquitempered);
+    return F00*ETS[abs((int)semitone-1)%12];
   }
 } 

@@ -21,7 +21,7 @@ pts F = new pts();
 int Chord, Scale;
 void setup() {             
   textureMode(NORMAL);
-   size(1200,1200, P3D);      
+   size(1200,1000, P3D);      
    just = loadImage("data/just.bmp");
    equit = loadImage("data/equitemp.bmp");
    happy = loadImage("data/happy.bmp");
@@ -36,12 +36,12 @@ void setup() {
    E.declare();
    F.declare();
    
-   F.addPt(P(1000,900));
-   F.addPt(P(800,900));
+   F.addPt(P(1000,800));
+   F.addPt(P(800,800));
   
-   E.addPt(P(600,900));
-   E.addPt(P(400,900));
-   E.addPt(P(200,900));
+   E.addPt(P(600,800));
+   E.addPt(P(400,800));
+   E.addPt(P(200,800));
    v = V(0, -100);
    
    initConvScales();
@@ -70,7 +70,7 @@ void draw() {
   if (E.pv == 0) Chord = 0;
   if (E.pv == 1) Chord = 1;
   if (E.pv == 2) Chord = 2;
-  if (F.pv == 0) isEquitempered = true;
+  if (F.pv == 1) isEquitempered = true;
   if (F.pv == 0) isEquitempered = false;
   loadSong(mus);
   

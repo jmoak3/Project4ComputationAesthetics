@@ -18,26 +18,28 @@ float songLength=10, totalDuration=0;
 // to add notes to a song 
 float tm=4; // conversion ratio for time and duration used to simplify parameters to appendNote and assNOte 
 // use this to append notes in order (no silence)
-void appendNote(float s, float d) {S[n]=s; addChords(n,s); T[n]=songLength; D[n]=d/tm; n++; songLength+=d/tm; }
+void appendNote(float s, float d) {S[n]=s; addChords(n,s,d/tm); T[n]=songLength; D[n]=d/tm; n++; songLength+=d/tm; }
 
 float SILENCE=1000;
 void appendSilence(float d) {S[n]=SILENCE; T[n]=songLength; D[n]=d/tm; n++; songLength+=d/tm; }
   
 // use this to add notes in any order
-void addNote(float s, float t, float d) {S[n]=s; addChords(n,s); T[n]=t/tm; D[n]=d/tm; n++; songLength=max(songLength,(t+d)/tm); }
+void addNote(float s, float t, float d) {S[n]=s; addChords(n,s,d/tm); T[n]=t/tm; D[n]=d/tm; n++; songLength=max(songLength,(t+d)/tm); }
  
 //Adds a triad to replace the note with the average pitch over the 3 notes of the triad being equalt to the pitch of the original note
-void addChords(int n, float s)
-{ 
-  //Major
+void addChords(int n, float s,float d)
+{   
   float b = 0, c = 0;
-  if (Chord == 0) {b = 4; c = 7;}
-  if (Chord == 1) {b = 3; c = 7;}
-  if (Chord == 2) {b = 3; c = 6;}
-  float root = s - (b+c)/3.0;//4.0/5.0 * s;
-  C[3*n] = root;
-  C[3*n+1] = root + b;//1.12246 * root;//5.0/4.0 * root;
-  C[3*n+2] = root + c;//1.49831 * root;//3.0/2.0 * root;
+  int ovrChord = Chord;
+  if(d <= 1)ovrChord=2-Chord;   
+  if (ovrChord == 0) {b = 4; c = 7;}
+  if (ovrChord == 1) {b = 3; c = 7;}
+  if (ovrChord == 2) {b = 3; c = 6;}
+  //Instead of using the note as the start frequency I ma going to use it as the central smitone of the triad to ensure average pitch being same.
+  float root = s;// - (b+c)/3.0;//4.0/5.0 * s;
+  C[3*n] = root - b;
+  C[3*n+1] = root;//1.12246 * root;//5.0/4.0 * root;
+  C[3*n+2] = root -b + c;//1.49831 * root;//3.0/2.0 * root;
 }
 
 //Function to initiate the JS and ETS arrays with prepopulated chord mapping ratios
@@ -96,11 +98,11 @@ void initSong() { // from Jobim's Desafinado
 void loadSong(String fn) {
   songLength=0; 
   n=0;
-  println("loading: "+fn); 
+  //println("loading: "+fn); 
   String [] ss = loadStrings(fn);
   int comma1, comma2; int nv; float a, b, c;
   nv = ss.length;
-  println(nv);
+  //println(nv);
   for(int i=0; i<nv; i++) {
     comma1=ss[i].indexOf(',');   
     comma2=ss[i].indexOf(',', comma1+1);   
